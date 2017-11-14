@@ -24,17 +24,17 @@ def detectFace(img):
   # Detect faces in the image
   faces = faceCascade.detectMultiScale(
   	gray,
-  	scaleFactor=2,
+  	scaleFactor=1.1,
   	minNeighbors=5,
-  	minSize=(40, 40),
+  	minSize=(30, 30),
   	flags = cv2.CASCADE_SCALE_IMAGE
   	)
   bbox = []
   # Draw a rectangle around the face
   for (x, y, w, h) in faces:
   	cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
-  	print (x,y,x+w,y+h)
-  	bbox.append([x,y,x+w,y+h])
+  	print ([[x,y], [x+w,y], [x,y+h],[x+w,y+h]])
+  	bbox.append([[x,y], [x+w,y], [x,y+h],[x+w,y+h]])
   #bbox = np.array(bbox)
   cv2.imshow("Faces found" ,img)
   cv2.waitKey(0)
