@@ -10,9 +10,6 @@
     - Input img: the first frame of video
     - Output bbox: the four corners of bounding boxes for all detected faces
 '''
-import PIL
-from pylab import *
-import numpy as np
 import cv2
 
 def detectFace(img):
@@ -24,7 +21,8 @@ def detectFace(img):
   # Detect faces in the image
   faces = faceCascade.detectMultiScale(
   	gray,
-  	scaleFactor=1.1,
+  	#scale factor decides the accuracy of detection
+  	scaleFactor=1.3,
   	minNeighbors=5,
   	minSize=(30, 30),
   	flags = cv2.CASCADE_SCALE_IMAGE
@@ -36,6 +34,8 @@ def detectFace(img):
   	print ([[x,y], [x+w,y], [x,y+h],[x+w,y+h]])
   	bbox.append([[x,y], [x+w,y], [x,y+h],[x+w,y+h]])
   #bbox = np.array(bbox)
-  cv2.imshow("Faces found" ,img)
-  cv2.waitKey(0)
+  #cv2.imshow("Faces found" ,img)
+  cv2.imwrite("result", img)
+  #click on any key to terminate display 
+  #cv2.waitKey(0)
   return bbox

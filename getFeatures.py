@@ -15,4 +15,5 @@
 
 def getFeatures(img, bbox):
   #TODO: Your code here
+  
   return x, y
