@@ -15,8 +15,9 @@ import cv2
 def detectFace(img):
   #TODO: Your code here 
   # read image to array
-  cascPath = 'haarcascade_frontalface_default.xml'
-  faceCascade = cv2.CascadeClassifier(cascPath)
+  casc = 'haarcascade_frontalface_default.xml'
+  faceCascade = cv2.CascadeClassifier(casc)
+  #convert to gray scale 
   gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
   # Detect faces in the image
   faces = faceCascade.detectMultiScale(
@@ -35,7 +36,7 @@ def detectFace(img):
   	bbox.append([[x,y], [x+w,y], [x,y+h],[x+w,y+h]])
   #bbox = np.array(bbox)
   #cv2.imshow("Faces found" ,img)
-  cv2.imwrite("result", img)
+  cv2.imwrite("result.jpg", img)
   #click on any key to terminate display 
   #cv2.waitKey(0)
   return bbox
