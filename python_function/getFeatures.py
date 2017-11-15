@@ -28,11 +28,11 @@ def getFeatures(img, bbox):
   for box in bbox:
     #box = [(x,y),(x+w,y),(x,y+h),(x+w,y+h)]
     box_img = img_gray[box[0,1]:box[2,1]+1, box[0,0]:box[1,0]+1]
-    xys = corner_peaks(corner_shi_tomasi(box_img, sigma=1))
-    #plt.figure()
-    #plt.imshow(box_img, cmap='gray')
-    #plt.axis('off')
-    #plt.show()
+    xys = corner_peaks(corner_shi_tomasi(box_img, sigma=5))
+    # plt.figure()
+    # plt.imshow(box_img, cmap='gray')
+    # plt.axis('off')
+    # plt.show()
     y = np.concatenate((y, box[0,1]+ xys[0:len(xys), 0]))
     x = np.concatenate((x, box[0,0]+ xys[0:len(xys), 1]))
   plt.figure()
@@ -46,6 +46,7 @@ if __name__ == '__main__':
   # setup video capture
   cap = cv2.VideoCapture("/Users/claraw/Desktop/Feature_Tracking_Optical_Flow/Datasets/Easy/TheMartian.mp4")
   ret,img = cap.read()
+  #small = cv2.resize(img, (0,0), fx=0.3, fy=0.3)
   cap.release()
   if ret:
     print ("Frame read %s", ret)
