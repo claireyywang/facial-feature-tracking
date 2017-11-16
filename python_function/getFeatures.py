@@ -57,20 +57,4 @@ if __name__ == '__main__':
     bbox = detectFace(img)
   else:
     print ("Frame read %s", ret)
-
   x, y = getFeatures(img, bbox)
-
-"""
-  for i in xrange(len(bbox)):
-    tempx =int((bbox[i][2][0]-bbox[i][0][0])*0.1)
-    tempy =int((bbox[i][1][1]-bbox[i][0][1])*0.1)
-    tempbox =img_gray[bbox[i][0][0]+tempx:bbox[i][2][0]-tempx, bbox[i][0][1]                        +tempy:bbox[i][1][1]-tempy]
-    tempcor =corner_shi_tomasi(tempbox, sigma=1)
-    temppeak =corner_peaks(tempcor)
-    # plt.figure()
-    # plt.imshow(tempbox, cmap='gray')
-    # plt.axis('off')
-    # plt.show() # this is used to check for faces
-    x.append(temppeak[:,0]+bbox[i][0][0]+tempx)
-    y.append(temppeak[:,1]+bbox[i][0][1]+tempy)
-"""
