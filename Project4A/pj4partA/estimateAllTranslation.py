@@ -11,6 +11,7 @@ from numpy.linalg import inv
 from scipy import interpolate
 from detectFace import detectFace
 from getFeatures import getFeatures
+from estimateFeatureTranslation import estimateFeatureTranslation
 
 
 '''
@@ -27,20 +28,54 @@ from getFeatures import getFeatures
 def estimateAllTranslation(startXs, startYs, img0, img1):
   gray0 = cv2.cvtColor(img0, cv2.COLOR_BGR2GRAY)
   gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
-  plt.figure(0)
-  plt.imshow(gray0, cmap='gray')
-  plt.axis('off')
-  plt.figure(1)
-  plt.imshow(gray1, cmap='gray')
-  plt.axis('off')
+
+  [Ix, Iy] = np.gradient(gray0)
+  # plt.figure(0)
+  # plt.imshow(gray0, cmap='gray')
+  # plt.axis('off')
+  # plt.figure(1)
+  # plt.imshow(gray1, cmap='gray')
+  # plt.axis('off')
+  # plt.figure(2)
+  # plt.subplot(121)
+  # plt.imshow(Ix, cmap='gray')
+  # plt.axis('off')
+  # plt.subplot(122)
+  # plt.imshow(Iy, cmap='gray')
+  # plt.axis('off')
+  # plt.show()
+  newXs =[]
+  newYs =[]
+
+  for i in xrange(len(startXs)):
+    listXs = []
+    listYs = []
+    for j in xrange(len(startXs[i])):
+      startX =startXs[i][j]
+      startY =startYs[i][j]
+      [newX, newY] = estimateFeatureTranslation(startX, startY, Ix, Iy, img0, img1)
+      listXs.append(newX)
+      listYs.append(newY)
+    newXs.append(listXs)
+    newYs.append(listYs)
+
+    plt.figure(0)
+    plt.subplot(121)
+    plt.imshow(img0)
+    plt.plot(startYs[i], startXs[i], 'ro')
+    plt.axis('off')
+    plt.subplot(122)
+    plt.imshow(img1)
+    plt.plot(listYs, listXs, 'ro')
+    plt.axis('off')
+
   plt.show()
 
-
-  check =1
-  # return newXs, newYs
+  return newXs, newYs
 
 if __name__ =='__main__':
-  cap = cv2.VideoCapture('.\CIS581Project4PartADatasets\Medium\StrangerThings.mp4')
+  # cap = cv2.VideoCapture('.\CIS581Project4PartADatasets\Medium\StrangerThings.mp4')
+  cap = cv2.VideoCapture('.\CIS581Project4PartADatasets\Easy\TheMartian.mp4')
   [retval0, img0] = cap.read(0)
   [retval1, img1] = cap.read(1)
   cap.release()

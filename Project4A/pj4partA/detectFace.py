@@ -29,7 +29,6 @@ def detectFace(img):
   bbox = []
   for (x, y, w, h) in nfaces:
     # cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-    # bbox.append([[x, y], [x + w, y], [x, y + h], [x + w, y + h]])
     bbox.append([[y, x], [y, x + w], [y + h, x], [y + h, x + w]])
 
   # cv2.imshow('img', img)

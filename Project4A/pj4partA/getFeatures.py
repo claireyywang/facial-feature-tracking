@@ -37,12 +37,12 @@ def getFeatures(img, bbox):
     # plt.show() # this is used to check for faces
     x.append(temppeak[:,0]+bbox[i][0][0]+tempx)
     y.append(temppeak[:,1]+bbox[i][0][1]+tempy)
+    # plt.figure(1) #this is to visualize the output corner peak
+    # plt.imshow(gray, cmap='gray')
+    # plt.plot(y[i], x[i], 'ro')
+    # plt.axis('off')
 
-  plt.figure()
-  plt.imshow(gray, cmap='gray')
-  plt.plot(y, x, 'ro')
-  plt.axis('off')
-  plt.show() #this is to visualize the output corner peak
+  # plt.show()
 
   return x, y
 
