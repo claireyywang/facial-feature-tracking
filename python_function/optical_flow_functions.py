@@ -4,4 +4,5 @@
   video frame extraction, video generation, drawing bounding box and so on.
 '''
 
-from python_function.detectFace import detectFace
+from detectFace import detectFace
+from getFeatures import getFeatures
