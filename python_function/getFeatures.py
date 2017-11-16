@@ -22,22 +22,26 @@ def getFeatures(img, bbox):
   #TODO: Your code here
   img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
   img_gray = np.array(img_gray)
-  x = np.array([])
-  y = np.array([])
-
+  x = []
+  y = []
   for box in bbox:
-    #box = [(x,y),(x+w,y),(x,y+h),(x+w,y+h)]
-    box_img = img_gray[box[0,1]:box[2,1]+1, box[0,0]:box[1,0]+1]
-    xys = corner_peaks(corner_shi_tomasi(box_img, sigma=5))
+    #box = [(y,x),(y,x+w),(y+h,x),(y+h,x+w)]
+    tempx =int((box[2][0]-box[0][0])*0.1)
+    tempy =int((box[1][1]-box[0][1])*0.1)
+    box_img = img_gray[box[0][0]+tempx:box[2][0]-tempx, 
+                        box[0][1]+tempy:box[1][1]-tempy]
+    xys = corner_peaks(corner_shi_tomasi(box_img, sigma=1))
     # plt.figure()
     # plt.imshow(box_img, cmap='gray')
     # plt.axis('off')
     # plt.show()
-    y = np.concatenate((y, box[0,1]+ xys[0:len(xys), 0]))
-    x = np.concatenate((x, box[0,0]+ xys[0:len(xys), 1]))
+    x.append(box[0,0]+xys[0:len(xys),0]+tempx)
+    y.append(box[0,1]+xys[0:len(xys),1]+tempy)
+  print x
+  print y
   plt.figure()
   plt.imshow(img_gray, cmap='gray')
-  plt.plot(x, y, 'r.')
+  plt.plot(y, x, 'r.')
   plt.axis('off')
   plt.show()
   return x, y
@@ -55,3 +59,18 @@ if __name__ == '__main__':
     print ("Frame read %s", ret)
 
   x, y = getFeatures(img, bbox)
+
+"""
+  for i in xrange(len(bbox)):
+    tempx =int((bbox[i][2][0]-bbox[i][0][0])*0.1)
+    tempy =int((bbox[i][1][1]-bbox[i][0][1])*0.1)
+    tempbox =img_gray[bbox[i][0][0]+tempx:bbox[i][2][0]-tempx, bbox[i][0][1]                        +tempy:bbox[i][1][1]-tempy]
+    tempcor =corner_shi_tomasi(tempbox, sigma=1)
+    temppeak =corner_peaks(tempcor)
+    # plt.figure()
+    # plt.imshow(tempbox, cmap='gray')
+    # plt.axis('off')
+    # plt.show() # this is used to check for faces
+    x.append(temppeak[:,0]+bbox[i][0][0]+tempx)
+    y.append(temppeak[:,1]+bbox[i][0][1]+tempy)
+"""

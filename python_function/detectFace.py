@@ -16,7 +16,7 @@ import numpy as np
 def detectFace(img):
   #TODO: Your code here 
   # read image to array
-  casc = 'haarcascade_frontalface_default.xml'
+  casc = 'haarcascade_frontalface_alt.xml'
   faceCascade = cv2.CascadeClassifier(casc)
   #convert to gray scale 
   gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -24,17 +24,17 @@ def detectFace(img):
   faces = faceCascade.detectMultiScale(
   	gray,
   	#scale factor decides the accuracy of detection
-  	scaleFactor=1.3,
+  	scaleFactor=2,
   	minNeighbors=5,
-  	minSize=(30, 40),
+  	minSize=(30, 30),
   	flags = cv2.CASCADE_SCALE_IMAGE
   	)
   bbox = []
   # Draw a rectangle around the face
   for (x, y, w, h) in faces:
   	#cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
-  	print ([(x,y),(x+w,y),(x,y+h),(x+w,y+h)])
-  	bbox.append([(x,y),(x+w,y),(x,y+h),(x+w,y+h)])
+  	print ([(y,x),(y,x+w),(y+h,x),(y+h,x+w)])
+  	bbox.append([(y,x),(y,x+w),(y+h,x),(y+h,x+w)])
   bbox = np.array(bbox)
   #cv2.imshow("Faces found" ,img)
   cv2.imwrite("result.jpg", img)
