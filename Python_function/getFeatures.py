@@ -38,6 +38,6 @@ def getFeatures(img, bbox):
     # plt.plot(y, x, 'r.')
     # plt.axis('off')
     # plt.show()
-    x = np.asarray(x)
-    y = np.asarray(y)
+    x = np.asarray(x).astype(int).flatten()
+    y = np.asarray(y).astype(int).flatten()
     return x, y

@@ -6,3 +6,4 @@
 
 from detectFace import detectFace
 from getFeatures import getFeatures
+from estimateFeatureTranslation import estimateFeatureTranslation

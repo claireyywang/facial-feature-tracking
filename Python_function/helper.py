@@ -9,3 +9,12 @@
   Include any helper function you want for this project such as the 
   video frame extraction, video generation, drawing bounding box and so on.
 '''
+
+
+from basic_packages import *
+
+def debug_draw(img):
+	plt.figure()
+	plt.imshow(img, cmap='gray')
+	plt.axis('off')
+	plt.show()
