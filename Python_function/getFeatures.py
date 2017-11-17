@@ -27,17 +27,10 @@ def getFeatures(img, bbox):
         box_img = img[box[0][0]+tempx:box[2][0]-tempx, 
                             box[0][1]+tempy:box[1][1]-tempy]
         xys = corner_peaks(corner_shi_tomasi(box_img, sigma=1))
-        # plt.figure()
-        # plt.imshow(box_img, cmap='gray')
-        # plt.axis('off')
-        # plt.show()
         x.append(box[0,0]+xys[0:len(xys),0]+tempx)
-        y.append(box[0,1]+xys[0:len(xys),1]+tempy)    
-    # plt.figure()
-    # plt.imshow(img, cmap='gray')
-    # plt.plot(y, x, 'r.')
-    # plt.axis('off')
-    # plt.show()
-    x = np.asarray(x).astype(int).flatten()
-    y = np.asarray(y).astype(int).flatten()
+        y.append(box[0,1]+xys[0:len(xys),1]+tempy)
+
+    x = np.asarray(x).astype(int)
+    y = np.asarray(y).astype(int)
+ 
     return x, y

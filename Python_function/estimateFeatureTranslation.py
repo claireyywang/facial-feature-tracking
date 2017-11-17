@@ -54,17 +54,20 @@ def estimateFeatureTranslation(startX, startY, Ix, Iy, img1, img2):
     # compute u v 
     A   = -np.dot(H_inv,b)
     u,v = A[0],A[1]
+    newX = int(round(startX+u))
+    newY = int(round(startY+v))
     
-    # Interpolation
-    meshX,meshY = np.meshgrid(np.arange(0,m),np.arange(0,n))
-    meshX = meshX.flatten()
-    meshY = meshY.flatten()
-    newPoint = np.concatenate((meshX+u,meshY+v))
-    pdb.set_trace()
-    newPosition = interpolate.interp2d(meshX,meshY,newPoint)
-    newX_matrix,newY_matrix = newPosition[0:m*n],newPosition[m*n,newPosition.size]
-    newX = newX_matrix.reshape(m,n)[startX][startY]
-    newY = newY_matrix.reshape(m,n)[startX][startY]
- 
-    
+    # # Interpolation
+    # meshY,meshX = np.meshgrid(np.arange(0,10),np.arange(0,10))
+    # meshX = meshX.flatten()
+    # meshY = meshY.flatten()
+    # update_x = meshX+u
+    # update_y = meshY+v
+    # f_x = interpolate.interp2d(meshX,meshY,update_x)
+    # f_y = interpolate.interp2d(meshX,meshY,update_y)
+    # # round down
+    # newX = int(round(startX+f_x(0,0)))
+    # newY = int(round(startY+f_y(0,0)))
+  
+
     return newX, newY

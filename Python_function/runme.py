@@ -31,20 +31,12 @@ def main():
 			pre_gray = cv2.cvtColor(pre_img, cv2.COLOR_BGR2GRAY)
 			pre_gray = np.asarray(pre_gray)
 			
-			pre_gradient_x, pre_gradient_y = np.gradient(pre_gray)
 
 			# change the currnet img into gray 
   			cur_gray = cv2.cvtColor(cur_img, cv2.COLOR_BGR2GRAY)
 			cur_gray = np.asarray(cur_gray)
 
-			newX, newY = estimateFeatureTranslation(startXs[0], startYs[0], pre_gradient_x, pre_gradient_y, pre_gray, cur_gray)
-
-
-			# plt.figure()
-			# plt.subplot(2,2,1),plt.imshow(pre_img_gx, cmap='gray')
-			# plt.subplot(2,2,2),plt.imshow(pre_img_gy, cmap='gray')
-			# plt.axis('off')
-			# plt.show()			
+			newXs, newYs = estimateAllTranslation(startXs, startYs, pre_gray, cur_gray)
 
 			break
 

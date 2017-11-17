@@ -13,8 +13,12 @@
 
 from basic_packages import *
 
-def debug_draw(img):
+def debug_draw(img,X,Y):
+
 	plt.figure()
+	img = np.uint8(img)
 	plt.imshow(img, cmap='gray')
+	# plt.title("{}".format(filename))	
+	plt.scatter(x=Y, y=X, c='r', s=3)
 	plt.axis('off')
 	plt.show()

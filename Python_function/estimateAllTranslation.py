@@ -15,6 +15,48 @@
     - Output newYs: all y coordinates for features wrt the second frame
 '''
 
+from basic_packages import *
+from helper import *
+
+# only function related to the implement function
+from estimateFeatureTranslation import estimateFeatureTranslation
+
+
 def estimateAllTranslation(startXs, startYs, img1, img2):
-  #TODO: Your code here
-  return newXs, newYs
+    #TODO: Your code here
+    # number of frames
+    num_frames = startXs.shape[0]
+
+    # boundary of images
+    m1,n1= img1.shape
+    m2,n2 = img2.shape
+
+    # gradient of img1
+    grad_img1_x, grad_img2_y = np.gradient(img1)
+
+    # initialized return array
+    newXs = []
+    newYs = []
+
+    # update feature translation
+    for i in xrange(num_frames):
+        xs = startXs[i]
+        ys = startYs[i]
+        feature_num = xs.size
+        x = []
+        y = []
+        for j in xrange(feature_num):
+            startX, startY = xs[j], ys[j]
+            newX, newY = estimateFeatureTranslation(startX, startY, grad_img1_x, grad_img2_y, img1, img2)
+            if(newX >= m1 or newY >= n1 or newX < 0 or newY < 0):
+                continue
+            x.append(newX)
+            y.append(newY)
+        # for debug
+        # debug_draw(img2,x,y)     
+        if(len(x) != 0):
+            newXs.append(x)
+            newYs.append(y)
+    newXs = np.asarray(newXs)
+    newYs = np.asarray(newYs)
+    return newXs, newYs
