@@ -38,15 +38,21 @@ def applyGeometricTransformation(startXs, startYs, newXs, newYs, bbox):
         f = transform.SimilarityTransform()
         src = np.asarray([startXs[i], startYs[i]]).T
         dst = np.asarray([newXs[i], newYs[i]]).T
+
+        # Train f (similarity function)
         if(not f.estimate(src,dst)):
             raise ValueError("The matrix estimation fail") 
         else:  
             H = f.params   
+
+        # Extract a0,b0,a1,b1
         a_0 = H[0][0]
         b_0 = H[1][0]
         a_1 = H[0][2]
         b_1 = H[1][2]
 
+        # X = a0 * x - b0 * y + a1 
+        # Y = b0 * x + a0 * y + b1
         newBox[:,0] = a_0 * box[:,0] - b_0 * box[:,1] + a_1
         newBox[:,1] = b_0 * box[:,0] + a_0 * box[:,1] + b_1
 
