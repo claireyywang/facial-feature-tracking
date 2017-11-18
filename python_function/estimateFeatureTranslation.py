@@ -19,9 +19,10 @@
 import cv2
 import numpy as np
 from numpy.linalg import inv
+import pdb
+
 from detectFace import detectFace
 from getFeatures import getFeatures
-import pdb
 
 def estimateFeatureTranslation(startX, startY, Ix, Iy, img1, img2):
   #TODO: Your code here
@@ -41,8 +42,8 @@ def estimateFeatureTranslation(startX, startY, Ix, Iy, img1, img2):
   uv = np.dot(inv(A_square), Ab)
   dx = uv[0]
   dy = uv[1]
-  newX = startX+dx
-  newY = startY+dy
+  newX = int(round(startX+dx))
+  newY = int(round(startY+dy))
   
   return newX, newY
 
