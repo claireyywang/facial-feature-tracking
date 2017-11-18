@@ -21,22 +21,34 @@ def faceTracking(rawVideo):
 	vidcap = cv2.VideoCapture(rawVideo)
 
 	success = True
+
 	# the previous img
 	pre_img = None
 
 	# the feature_x and feature_y in previous img  
 	startX = None 
 	startY = None
+
+	# init video object
+	video = None
+
 	while success:
 		success,cur_img = vidcap.read()
-	    #convert to gray scale
+
   		# first image 
   		if(pre_img is None):
   			cur_gray = cv2.cvtColor(cur_img, cv2.COLOR_BGR2GRAY)
 			cur_gray = np.asarray(cur_gray)
   			bbox = detectFace(cur_gray)
 			startXs, startYs = getFeatures(cur_gray,bbox)
-			pre_img = cur_img
+			pre_img = cur_img	
+
+			# initialized video object
+			height , width , layers =  cur_img.shape
+			fourcc = cv2.VideoWriter_fourcc(*'XVID')
+			video = cv2.VideoWriter('../Output_Video/track_video.avi',fourcc,1,(width,height))
+			cur_img_boxes = draw_boxes(cur_img,bbox) 
+			video.write(cur_img_boxes)
 
 		# after second image
 		else:
@@ -59,10 +71,10 @@ def faceTracking(rawVideo):
 			bbox = newbbox
 
 			# draw the box on image
+			cur_img_boxes = draw_boxes(cur_img,bbox) 
+			video.write(cur_img_boxes)
+
 			break
 
-  		if cv2.waitKey(10) == 27:  # exit if Escape is hit
-			break
-
-	trackedVideo = ''
+	trackedVideo = '../Output_Video/track_video.avi'
 	return trackedVideo
