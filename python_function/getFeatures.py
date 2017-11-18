@@ -37,13 +37,15 @@ def getFeatures(img, bbox):
     # plt.show()
     x.append(box[0,0]+xys[0:len(xys),0]+tempx)
     y.append(box[0,1]+xys[0:len(xys),1]+tempy)
-  print x
-  print y
-  plt.figure()
-  plt.imshow(img_gray, cmap='gray')
-  plt.plot(y, x, 'r.')
-  plt.axis('off')
-  plt.show()
+  #print x
+  #print y
+  # plt.figure()
+  # plt.imshow(img_gray, cmap='gray')
+  # plt.plot(y, x, 'r.')
+  # plt.axis('off')
+  # plt.show()
+  x = np.asarray(x).astype(int)
+  y = np.asarray(y).astype(int)
   return x, y
 
 if __name__ == '__main__':

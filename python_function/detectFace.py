@@ -33,11 +33,11 @@ def detectFace(img):
   # Draw a rectangle around the face
   for (x, y, w, h) in faces:
   	#cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
-  	print ([(y,x),(y,x+w),(y+h,x),(y+h,x+w)])
+  	#print ([(y,x),(y,x+w),(y+h,x),(y+h,x+w)])
   	bbox.append([(y,x),(y,x+w),(y+h,x),(y+h,x+w)])
   bbox = np.array(bbox)
   #cv2.imshow("Faces found" ,img)
-  cv2.imwrite("result.jpg", img)
+  #cv2.imwrite("result.jpg", img)
   #click on any key to terminate display 
   #cv2.waitKey(0)
   return bbox
