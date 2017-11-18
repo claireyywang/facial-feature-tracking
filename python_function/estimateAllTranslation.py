@@ -15,7 +15,7 @@
 '''
 import cv2
 import pdb
-import numpy as np 
+import numpy as np
 import scipy
 import matplotlib
 import matplotlib.pyplot as plt
