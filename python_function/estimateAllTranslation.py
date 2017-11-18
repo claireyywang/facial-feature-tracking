@@ -13,14 +13,17 @@
     - Output newXs: all x coordinates for features wrt the second frame
     - Output newYs: all y coordinates for features wrt the second frame
 '''
-import numpy as np 
 import cv2
 import pdb
+import numpy as np 
+import scipy
+import matplotlib
+import matplotlib.pyplot as plt
+from skimage.feature import corner_shi_tomasi, corner_peaks
 
 from detectFace import detectFace
 from getFeatures import getFeatures
 from estimateFeatureTranslation import estimateFeatureTranslation
-
 def estimateAllTranslation(startXs, startYs, img1, img2):
   img1 = np.array(img1)
   img2 = np.array(img2)

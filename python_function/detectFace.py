@@ -11,7 +11,12 @@
     - Output bbox: the four corners of bounding boxes for all detected faces
 '''
 import cv2
-import numpy as np
+import pdb
+import numpy as np 
+import scipy
+import matplotlib
+import matplotlib.pyplot as plt
+from skimage.feature import corner_shi_tomasi, corner_peaks
 
 def detectFace(img):
   #TODO: Your code here 

@@ -13,10 +13,14 @@
     - Output y: the y coordinates of features
 '''
 import cv2
-import numpy as np
-from skimage.feature import corner_shi_tomasi, corner_peaks
-from detectFace import detectFace
+import pdb
+import numpy as np 
+import scipy
+import matplotlib
 import matplotlib.pyplot as plt
+from skimage.feature import corner_shi_tomasi, corner_peaks
+
+from detectFace import detectFace
 
 def getFeatures(img, bbox):
   #TODO: Your code here

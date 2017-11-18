@@ -17,9 +17,13 @@
     - Output newY: the y coordinate for the feature wrt the second frame
 '''
 import cv2
-import numpy as np
-from numpy.linalg import inv
 import pdb
+import numpy as np 
+import scipy
+import matplotlib
+import matplotlib.pyplot as plt
+from numpy.linalg import inv
+from skimage.feature import corner_shi_tomasi, corner_peaks
 
 from detectFace import detectFace
 from getFeatures import getFeatures
