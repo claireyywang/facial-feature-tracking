@@ -1,7 +1,7 @@
 
 from optical_flow_functions import *
 from basic_packages import *
-
+from helper import *
 
 
 def main():
@@ -37,7 +37,12 @@ def main():
 			cur_gray = np.asarray(cur_gray)
 
 			newXs, newYs = estimateAllTranslation(startXs, startYs, pre_gray, cur_gray)
+			Xs, Ys, newbbox = applyGeometricTransformation(startXs, startYs, newXs, newYs, bbox)
+			
+			debug_draw(pre_gray,startXs,startYs,"pre+startX+startY")
+			debug_draw(cur_gray,Xs,Ys,"cur+startX+startY")
 
+			bbox = newbbox
 			break
 
   		if cv2.waitKey(10) == 27:  # exit if Escape is hit

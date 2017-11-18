@@ -27,9 +27,6 @@ def estimateAllTranslation(startXs, startYs, img1, img2):
     # number of frames
     num_frames = startXs.shape[0]
 
-    # boundary of images
-    m1,n1= img1.shape
-    m2,n2 = img2.shape
 
     # gradient of img1
     grad_img1_x, grad_img2_y = np.gradient(img1)
@@ -48,12 +45,11 @@ def estimateAllTranslation(startXs, startYs, img1, img2):
         for j in xrange(feature_num):
             startX, startY = xs[j], ys[j]
             newX, newY = estimateFeatureTranslation(startX, startY, grad_img1_x, grad_img2_y, img1, img2)
-            if(newX >= m1 or newY >= n1 or newX < 0 or newY < 0):
-                continue
             x.append(newX)
             y.append(newY)
         # for debug
         # debug_draw(img2,x,y)     
+        
         if(len(x) != 0):
             newXs.append(x)
             newYs.append(y)

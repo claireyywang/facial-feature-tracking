@@ -26,7 +26,6 @@ def estimateFeatureTranslation(startX, startY, Ix, Iy, img1, img2):
     #                   IyIx IyIy   v          Ity
     # For each x and y, create a patch of window 10*10)
 
-
     m, n = img1.shape
 
     # calculate temperate gradient
