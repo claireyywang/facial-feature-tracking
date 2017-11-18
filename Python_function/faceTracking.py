@@ -45,8 +45,8 @@ def faceTracking(rawVideo):
 
 			# initialized video object
 			height , width , layers =  cur_img.shape
-			fourcc = cv2.VideoWriter_fourcc(*'XVID')
-			video = cv2.VideoWriter('../Output_Video/track_video.avi',fourcc,1,(width,height))
+			# fourcc = cv2.VideoWriter_fourcc(*'XVID')
+			video = cv2.VideoWriter('../Output_Video/track_video.avi',-1,1,(width,height))
 			cur_img_boxes = draw_boxes(cur_img,bbox) 
 			video.write(cur_img_boxes)
 
@@ -68,13 +68,17 @@ def faceTracking(rawVideo):
 			# debug_draw(pre_gray,startXs,startYs,"pre+startX+startY")
 			# debug_draw(cur_gray,Xs,Ys,"cur+startX+startY")
 
+			# Update images and bbox
+			pre_img = cur_img
 			bbox = newbbox
 
 			# draw the box on image
 			cur_img_boxes = draw_boxes(cur_img,bbox) 
 			video.write(cur_img_boxes)
 
-			break
+	# release
+	cv2.destroyAllWindows()
+	video.release()
 
 	trackedVideo = '../Output_Video/track_video.avi'
 	return trackedVideo
