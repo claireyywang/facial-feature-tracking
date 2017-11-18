@@ -61,18 +61,33 @@ def applyGeometricTransformation(startXs, startYs, newXs, newYs, bbox):
     newbox[:,0] = a0*box[:,0] + b0*box[:,1] + a1
     newbox[:,1] = b0*box[:,0] + a0*box[:,1] + b1
 
+    box_x1 = min(newbox[0:2,0])
+    box_x2 = max(newbox[2:4,0])
+    box_y1 = min(newbox[0,1], newbox[2,1])
+    box_y2 = max(newbox[1,1], newbox[3,1])
+    
+    newbox = np.asarray([[box_x1, box_y1],[box_x1, box_y2],[box_x2, box_y1],[box_x2, box_y2]])
     newbbox.append(newbox)
 
     diff = (prev_xs - cur_xs)**2 + (prev_ys - cur_ys)**2
     idx = np.where(diff <= 16)
     xys = np.asarray([cur_xs[idx], cur_ys[idx]]).T
 
+    # eliminate out-of-box features
+    xys[xys[:,0] < box_x1] = -1
+    xys[xys[:,0] > box_x2] = -1
+    xys[xys[:,1] < box_y1] = -1
+    xys[xys[:,1] > box_y2] = -1        
+    xys = xys[np.all(xys != -1, axis = 1),:]
+
     Xs.append(np.asarray(xys[:,0]))
     Ys.append(np.asarray(xys[:,1]))
 
   Xs = np.asarray(Xs)
   Ys = np.asarray(Ys)
-
+  # print Xs
+  # print Ys
+  # print newbbox
   return Xs, Ys, newbbox
 
 if __name__ == '__main__':
