@@ -63,20 +63,23 @@ def applyGeometricTransformation(startXs, startYs, newXs, newYs, bbox):
         newBox = np.asarray([[top,left],[top,right],[bottom,left],[bottom,right]])
         newbbox.append(newBox)
 
-        # eliminate out-of-box features
+        # eliminate the distance > 4 
         xys = np.asarray([newXs[i], newYs[i]]).T
+        old_xys = np.asarray([startXs[i], startYs[i]]).T
+        dis = (np.square(xys-old_xys)).sum(axis=1)
+        idx = np.where(dis <= 16)
+        xys = xys[idx]
+
+        # eliminate out-of-box features
         xys[xys[:,0] >= bottom] = -1
         xys[xys[:,0] <= top] = -1
         xys[xys[:,1] >= right] = -1
         xys[xys[:,1] <= left] = -1        
         xys = xys[np.all(xys != -1, axis = 1),:]
 
-        
         # Append into result
         Xs.append(xys[:,0])
         Ys.append(xys[:,1]) 
-
-    # pdb.set_trace()
 
     Xs = np.asarray(Xs)
     Ys = np.asarray(Ys)
