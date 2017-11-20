@@ -7,8 +7,6 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy.linalg import inv
-from scipy import interpolate
 from detectFace import detectFace
 from getFeatures import getFeatures
 from estimateFeatureTranslation import estimateFeatureTranslation
@@ -30,20 +28,7 @@ def estimateAllTranslation(startXs, startYs, img0, img1):
   gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
 
   [Ix, Iy] = np.gradient(gray0)
-  # plt.figure(0)
-  # plt.imshow(gray0, cmap='gray')
-  # plt.axis('off')
-  # plt.figure(1)
-  # plt.imshow(gray1, cmap='gray')
-  # plt.axis('off')
-  # plt.figure(2)
-  # plt.subplot(121)
-  # plt.imshow(Ix, cmap='gray')
-  # plt.axis('off')
-  # plt.subplot(122)
-  # plt.imshow(Iy, cmap='gray')
-  # plt.axis('off')
-  # plt.show()
+
   newXs =[]
   newYs =[]
 
@@ -56,31 +41,32 @@ def estimateAllTranslation(startXs, startYs, img0, img1):
       [newX, newY] = estimateFeatureTranslation(startX, startY, Ix, Iy, img0, img1)
       listXs.append(newX)
       listYs.append(newY)
-    newXs.append(listXs)
-    newYs.append(listYs)
 
-    plt.figure(0)
-    plt.subplot(121)
-    plt.imshow(img0)
-    plt.plot(startYs[i], startXs[i], 'ro')
-    plt.axis('off')
-    plt.subplot(122)
-    plt.imshow(img1)
-    plt.plot(listYs, listXs, 'ro')
-    plt.axis('off')
+    newXs.append(np.asarray(listXs))
+    newYs.append(np.asarray(listYs))
 
-  plt.show()
+  #   plt.figure(1)
+  #   plt.subplot(121)
+  #   plt.imshow(img0)
+  #   # plt.plot(startYs[i], startXs[i], 'ro')
+  #   plt.axis('off')
+  #   plt.subplot(122)
+  #   plt.imshow(img1)
+  #   # plt.plot(listYs, listXs, 'ro')
+  #   plt.axis('off')
+  #
+  # plt.show()
 
   return newXs, newYs
 
 if __name__ =='__main__':
-  # cap = cv2.VideoCapture('.\CIS581Project4PartADatasets\Medium\StrangerThings.mp4')
-  cap = cv2.VideoCapture('.\CIS581Project4PartADatasets\Easy\TheMartian.mp4')
+  cap = cv2.VideoCapture('.\CIS581Project4PartADatasets\Medium\StrangerThings.mp4')
+  # cap = cv2.VideoCapture('.\CIS581Project4PartADatasets\Easy\TheMartian.mp4')
   [retval0, img0] = cap.read(0)
   [retval1, img1] = cap.read(1)
   cap.release()
-  # bbox = detectFace(img0)
-  # np.save('Bbox', bbox)
-  bbox = np.load('.\Bbox.npy')
+  bbox = detectFace(img0)
+  np.save('Bbox', bbox)
+  # bbox = np.load('.\Bbox.npy')
   [startXs, startYs] = getFeatures(img0, bbox)
   estimateAllTranslation(startXs, startYs, img0, img1)

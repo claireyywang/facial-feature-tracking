@@ -29,7 +29,7 @@ def getFeatures(img, bbox):
     tempx =int((bbox[i][2][0]-bbox[i][0][0])*0.1)
     tempy =int((bbox[i][1][1]-bbox[i][0][1])*0.1)
     tempbox =gray[bbox[i][0][0]+tempx:bbox[i][2][0]-tempx, bbox[i][0][1]+tempy:bbox[i][1][1]-tempy]
-    tempcor =corner_shi_tomasi(tempbox, sigma=1)
+    tempcor =corner_shi_tomasi(tempbox, sigma=0.5)
     temppeak =corner_peaks(tempcor)
     # plt.figure()
     # plt.imshow(tempbox, cmap='gray')
