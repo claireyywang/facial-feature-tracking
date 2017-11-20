@@ -17,8 +17,8 @@ import matplotlib.pyplot as plt
 
 def detectFace(img):
   gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-  haar_face =cv2.CascadeClassifier('.\Face_classfier\haarcascade_profileface.xml')
-  # haar_face = cv2.CascadeClassifier('.\Face_classfier\haarcascade_frontalface_alt.xml')
+  # haar_face =cv2.CascadeClassifier('.\Face_classfier\haarcascade_profileface.xml')
+  haar_face = cv2.CascadeClassifier('.\Face_classfier\haarcascade_frontalface_alt.xml')
   nfaces =haar_face.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5)
 
   # plt.figure()
