@@ -1,10 +1,13 @@
-
+'''
+  File clarification:
+	Initializing the face tracking function
+'''
 
 
 from faceTracking import *
 
 def main():
-	rawVideo = '../Datasets/Easy/TheMartian.mp4'
+	rawVideo = '../Datasets/Easy/MarquesBrownlee.mp4'
 	trackedVideo = faceTracking(rawVideo) 
 
 
