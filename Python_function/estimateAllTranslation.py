@@ -29,7 +29,7 @@ def estimateAllTranslation(startXs, startYs, img1, img2):
 
 
     # gradient of img1
-    grad_img1_x, grad_img2_y = np.gradient(img1)
+    grad_img1_x, grad_img1_y = np.gradient(img1)
 
     # initialized return array
     newXs = []
@@ -44,7 +44,7 @@ def estimateAllTranslation(startXs, startYs, img1, img2):
         y = []
         for j in xrange(feature_num):
             startX, startY = xs[j], ys[j]
-            newX, newY = estimateFeatureTranslation(startX, startY, grad_img1_x, grad_img2_y, img1, img2)
+            newX, newY = estimateFeatureTranslation(startX, startY, grad_img1_x, grad_img1_y, img1, img2)
             x.append(newX)
             y.append(newY)
         # for debug
