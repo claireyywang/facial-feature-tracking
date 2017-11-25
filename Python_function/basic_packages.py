@@ -12,6 +12,6 @@ import matplotlib.pyplot as plt
 import os, math, scipy.misc, pdb, collections, random, copy
 from skimage.feature import corner_shi_tomasi, corner_peaks
 from skimage import transform 
-from scipy import interpolate
+from scipy import interpolate, signal
 
 from est_homography import est_homography
