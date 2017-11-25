@@ -31,20 +31,27 @@ def estimateFeatureTranslation(startX, startY, Ix, Iy, img1, img2):
     # calculate temperate gradient
     It = img2 - img1;
 
-    # Padding with mirror length = 5
-    Ix_pad = np.pad(Ix,5,'symmetric')
-    Iy_pad = np.pad(Iy,5,'symmetric')
-    It_pad = np.pad(It,5,'symmetric')
+    # Convolute with gaussian functions
+    gaussian = GaussianPDF_2D(0, 1, 3, 3) #3 is for martins
+    Ix_g = signal.convolve2d(Ix, gaussian, 'same')
+    Iy_g = signal.convolve2d(Iy, gaussian, 'same')
 
-    patch_Ix = Ix_pad[startX:startX+10,startY:startY+10]
-    patch_Iy = Iy_pad[startX:startX+10,startY:startY+10]
-    patch_It = It_pad[startX:startX+10,startY:startY+10]
+    # # Padding with mirror length = 5
+    # Ix_pad = np.pad(Ix_g,5,'symmetric')
+    # Iy_pad = np.pad(Iy_g,5,'symmetric')
+    # It_pad = np.pad(It,5,'symmetric')
+
+    patch_Ix = Ix[startX-5:startX+5,startY-5:startY+5]
+    patch_Iy = Iy[startX-5:startX+5,startY-5:startY+5]
+    patch_It = It[startX-5:startX+5,startY-5:startY+5]
+    patch_Ix_g = Ix_g[startX-5:startX+5,startY-5:startY+5]
+    patch_Iy_g = Iy_g[startX-5:startX+5,startY-5:startY+5]
 
     IxIx = np.sum(np.dot(patch_Ix,patch_Ix))
     IxIy = np.sum(np.dot(patch_Ix,patch_Iy))
     IyIy = np.sum(np.dot(patch_Iy,patch_Iy))
-    ItIx = np.sum(np.dot(patch_Ix,patch_It))
-    ItIy = np.sum(np.dot(patch_Iy,patch_It))
+    ItIx = np.sum(np.dot(patch_Ix_g,patch_It))
+    ItIy = np.sum(np.dot(patch_Iy_g,patch_It))
 
     # matrix
     H_inv = np.linalg.inv(np.asarray(([IxIx,IxIy],[IxIy,IyIy])))
