@@ -34,7 +34,6 @@ def applyGeometricTransformation(startXs, startYs, newXs, newYs, bbox):
 
     for i in xrange(num_frames):
         box = bbox[i] # (4,2)
-        newBox = np.zeros(box.shape)
         f = transform.SimilarityTransform()
         src = np.asarray([startXs[i], startYs[i]]).T
         dst = np.asarray([newXs[i], newYs[i]]).T
@@ -53,6 +52,7 @@ def applyGeometricTransformation(startXs, startYs, newXs, newYs, bbox):
 
         # X = a0 * x - b0 * y + a1 
         # Y = b0 * x + a0 * y + b1
+        newBox = np.zeros(box.shape)
         newBox[:,0] = a_0 * box[:,0] - b_0 * box[:,1] + a_1
         newBox[:,1] = b_0 * box[:,0] + a_0 * box[:,1] + b_1
 
@@ -60,10 +60,10 @@ def applyGeometricTransformation(startXs, startYs, newXs, newYs, bbox):
         newBox = np.round(newBox).astype(int)
 
         # Boundary
-        right = np.amax(newBox[:,1])        
-        left = np.amin(newBox[:,1])
-        bottom = np.amax(newBox[:,0])
-        top = np.amin(newBox[:,0])
+        right = max(newBox[0,1],newBox[2,1])        
+        left = min(newBox[1,1],newBox[3,1])
+        bottom = max(newBox[0:2,0])
+        top = min(newBox[2:4,0])
 
         # Regular box
         newBox = np.asarray([[top,left],[top,right],[bottom,left],[bottom,right]])
@@ -76,12 +76,12 @@ def applyGeometricTransformation(startXs, startYs, newXs, newYs, bbox):
         idx = np.where(dis <= 16)
         xys = xys[idx]
 
-        # eliminate out-of-box features
-        xys[xys[:,0] >= bottom] = -1
-        xys[xys[:,0] <= top] = -1
-        xys[xys[:,1] >= right] = -1
-        xys[xys[:,1] <= left] = -1        
-        xys = xys[np.all(xys != -1, axis = 1),:]
+        # # eliminate out-of-box features
+        # xys[xys[:,0] >= bottom] = -1
+        # xys[xys[:,0] <= top] = -1
+        # xys[xys[:,1] >= right] = -1
+        # xys[xys[:,1] <= left] = -1        
+        # xys = xys[np.all(xys != -1, axis = 1),:]
 
         # Append into result
         Xs.append(xys[:,0])
