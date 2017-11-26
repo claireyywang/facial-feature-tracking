@@ -23,7 +23,6 @@ import numpy as np
 import scipy
 import matplotlib
 import matplotlib.pyplot as plt
-from skimage.feature import corner_shi_tomasi, corner_peaks
 from skimage import transform
 
 from detectFace import detectFace
@@ -85,18 +84,33 @@ def applyGeometricTransformation(startXs, startYs, newXs, newYs, bbox):
 
   Xs = np.asarray(Xs)
   Ys = np.asarray(Ys)
-  # print Xs
-  # print Ys
-  # print newbbox
   return Xs, Ys, newbbox
 
 if __name__ == '__main__':
-  cap = cv2.VideoCapture("/Users/claraw/Desktop/Feature_Tracking_Optical_Flow/Datasets/Easy/TheMartian.mp4")
+  cap = cv2.VideoCapture(".\Datasets\Easy\MarquesBrownlee.mp4")
   ret,img1 = cap.read()
   ret,img2 = cap.read()
   cap.release()
+  tmpimg1 = img1.copy()
+  tmpimg2 = img2.copy()
 
   bbox = detectFace(img1)
   startXs, startYs = getFeatures(img1, bbox)
   newXs, newYs = estimateAllTranslation(startXs, startYs, img1, img2)
   Xs, Ys, newbbox = applyGeometricTransformation(startXs, startYs, newXs, newYs, bbox)
+
+  for box in bbox:
+    cv2.rectangle(tmpimg1, (int(box[0][1]), int(box[0][0])), (int(box[-1][1]), int(box[-1][0])), (0, 255, 0), 3)
+  plt.figure()
+  plt.imshow(tmpimg1)
+  plt.plot(startYs, startXs, 'w+')
+  plt.axis('off')
+  plt.show()
+
+  for newbox in newbbox:
+    cv2.rectangle(tmpimg2, (int(newbox[0][1]), int(newbox[0][0])), (int(newbox[-1][1]), int(newbox[-1][0])), (0, 255, 0), 3)
+  plt.figure()
+  plt.imshow(tmpimg2)
+  plt.plot(Ys, Xs, 'w+')
+  plt.axis('off')
+  plt.show()

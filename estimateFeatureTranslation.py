@@ -53,7 +53,7 @@ def estimateFeatureTranslation(startX, startY, Ix, Iy, img1, img2):
 
 if __name__ == '__main__':
   # setup video capture
-  cap = cv2.VideoCapture("/Users/claraw/Desktop/Feature_Tracking_Optical_Flow/Datasets/Easy/TheMartian.mp4")
+  cap = cv2.VideoCapture(".\Datasets\Easy\MarquesBrownlee.mp4")
   ret,img1 = cap.read()
   ret,img2 = cap.read()
   cap.release()
@@ -68,6 +68,22 @@ if __name__ == '__main__':
   Ix, Iy = np.gradient(img1_gray)
   Ix = np.array(Ix)
   Iy = np.array(Iy)
-  startX = x[0][0]
-  startY = y[0][0]
-  newX, newY = estimateFeatureTranslation(startX, startY, Ix, Iy, img1_gray, img2_gray)
+
+  newXs = []
+  newYs = []
+  for i in range(len(x)):
+    for j in range(len(x[i])):
+      startX = x[i][j]
+      startY = y[i][j]
+      newX, newY = estimateFeatureTranslation(startX, startY, Ix, Iy, img1_gray, img2_gray)
+      newXs.append(newX)
+      newYs.append(newY)
+
+  print len(newXs)
+  print len(newYs)
+
+  plt.figure()
+  plt.imshow(img2_gray, cmap='gray')
+  plt.plot(newYs, newXs, 'w+')
+  plt.axis('off')
+  plt.show()

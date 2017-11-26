@@ -16,7 +16,6 @@ import cv2
 import pdb
 import numpy as np 
 import scipy
-import matplotlib
 import matplotlib.pyplot as plt
 from skimage.feature import corner_shi_tomasi, corner_peaks
 
@@ -43,18 +42,18 @@ def getFeatures(img, bbox):
     y.append(box[0,1]+xys[0:len(xys),1]+tempy)
   #print x
   #print y
-  # plt.figure()
-  # plt.imshow(img_gray, cmap='gray')
-  # plt.plot(y, x, 'r.')
-  # plt.axis('off')
-  # plt.show()
+  plt.figure()
+  plt.imshow(img_gray, cmap='gray')
+  plt.plot(y, x, 'w+')
+  plt.axis('off')
+  plt.show()
   x = np.asarray(x).astype(int)
   y = np.asarray(y).astype(int)
   return x, y
 
 if __name__ == '__main__':
   # setup video capture
-  cap = cv2.VideoCapture("/Users/claraw/Desktop/Feature_Tracking_Optical_Flow/Datasets/Easy/TheMartian.mp4")
+  cap = cv2.VideoCapture(".\Datasets\Easy\MarquesBrownlee.mp4")  
   ret,img = cap.read()
   #small = cv2.resize(img, (0,0), fx=0.3, fy=0.3)
   cap.release()

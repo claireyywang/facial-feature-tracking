@@ -17,13 +17,12 @@ import cv2
 import pdb
 import numpy as np
 import scipy
-import matplotlib
 import matplotlib.pyplot as plt
-from skimage.feature import corner_shi_tomasi, corner_peaks
 
 from detectFace import detectFace
 from getFeatures import getFeatures
 from estimateFeatureTranslation import estimateFeatureTranslation
+
 def estimateAllTranslation(startXs, startYs, img1, img2):
   img1 = np.array(img1)
   img2 = np.array(img2)
@@ -53,13 +52,22 @@ def estimateAllTranslation(startXs, startYs, img1, img2):
 
 if __name__ == '__main__':
   # setup video capture
-  cap = cv2.VideoCapture("/Users/claraw/Desktop/Feature_Tracking_Optical_Flow/Datasets/Easy/TheMartian.mp4")
+  cap = cv2.VideoCapture(".\Datasets\Easy\MarquesBrownlee.mp4")
   ret,img1 = cap.read()
   ret,img2 = cap.read()
+  ret,img3 = cap.read()
   cap.release()
 
   bbox = detectFace(img1)
   startXs, startYs = getFeatures(img1, bbox)
   newXs, newYs = estimateAllTranslation(startXs, startYs, img1, img2)
+  nnewXs, nnewYs = estimateAllTranslation(newXs, newYs, img2, img3)
+  print len(nnewXs[0])
+  print len(nnewYs[0])
 
+  plt.figure()
+  plt.imshow(img3)
+  plt.plot(nnewYs, nnewXs, 'w+')
+  plt.axis('off')
+  plt.show()
   
