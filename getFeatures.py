@@ -33,7 +33,7 @@ def getFeatures(img, bbox):
     tempy =int((box[1][1]-box[0][1])*0.1)
     box_img = img_gray[box[0][0]+tempx:box[2][0]-tempx, 
                         box[0][1]+tempy:box[1][1]-tempy]
-    xys = corner_peaks(corner_shi_tomasi(box_img, sigma=1))
+    xys = corner_peaks(corner_shi_tomasi(box_img, sigma=0.5))
     # plt.figure()
     # plt.imshow(box_img, cmap='gray')
     # plt.axis('off')
@@ -42,18 +42,18 @@ def getFeatures(img, bbox):
     y.append(box[0,1]+xys[0:len(xys),1]+tempy)
   #print x
   #print y
-  plt.figure()
-  plt.imshow(img_gray, cmap='gray')
-  plt.plot(y, x, 'w+')
-  plt.axis('off')
-  plt.show()
+  # plt.figure()
+  # plt.imshow(img_gray, cmap='gray')
+  # plt.plot(y, x, 'w+')
+  # plt.axis('off')
+  # plt.show()
   x = np.asarray(x).astype(int)
   y = np.asarray(y).astype(int)
   return x, y
 
 if __name__ == '__main__':
   # setup video capture
-  cap = cv2.VideoCapture(".\Datasets\Easy\MarquesBrownlee.mp4")  
+  cap = cv2.VideoCapture("./Datasets/Easy/MarquesBrownlee.mp4")  
   ret,img = cap.read()
   #small = cv2.resize(img, (0,0), fx=0.3, fy=0.3)
   cap.release()

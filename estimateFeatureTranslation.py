@@ -53,7 +53,7 @@ def estimateFeatureTranslation(startX, startY, Ix, Iy, img1, img2):
 
 if __name__ == '__main__':
   # setup video capture
-  cap = cv2.VideoCapture(".\Datasets\Easy\MarquesBrownlee.mp4")
+  cap = cv2.VideoCapture("./Datasets/Easy/MarquesBrownlee.mp4")
   ret,img1 = cap.read()
   ret,img2 = cap.read()
   cap.release()

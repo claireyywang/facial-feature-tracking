@@ -60,10 +60,10 @@ def applyGeometricTransformation(startXs, startYs, newXs, newYs, bbox):
     newbox[:,0] = a0*box[:,0] + b0*box[:,1] + a1
     newbox[:,1] = b0*box[:,0] + a0*box[:,1] + b1
 
-    box_x1 = min(newbox[0:2,0])
-    box_x2 = max(newbox[2:4,0])
-    box_y1 = min(newbox[0,1], newbox[2,1])
-    box_y2 = max(newbox[1,1], newbox[3,1])
+    box_x1 = int(min(newbox[0:2,0]))
+    box_x2 = int(max(newbox[2:4,0]))
+    box_y1 = int(min(newbox[0,1], newbox[2,1]))
+    box_y2 = int(max(newbox[1,1], newbox[3,1]))
     
     newbox = np.asarray([[box_x1, box_y1],[box_x1, box_y2],[box_x2, box_y1],[box_x2, box_y2]])
     newbbox.append(newbox)
@@ -87,7 +87,7 @@ def applyGeometricTransformation(startXs, startYs, newXs, newYs, bbox):
   return Xs, Ys, newbbox
 
 if __name__ == '__main__':
-  cap = cv2.VideoCapture(".\Datasets\Easy\MarquesBrownlee.mp4")
+  cap = cv2.VideoCapture("./Datasets/Easy/MarquesBrownlee.mp4")
   ret,img1 = cap.read()
   ret,img2 = cap.read()
   cap.release()
