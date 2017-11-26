@@ -54,8 +54,10 @@ def faceTracking(rawVideo):
     box_features = np.array([])
     for i in range(len(Xs)):
       box_features = np.append(box_features, len(Xs[i]))
-    
-    if sum(box_features < 10) > 0:
+
+    print sum(box_features)
+    # import pdb; pdb.set_trace()
+    if sum(box_features) < 10:
       newbbox = detectFace(cur_img)
       Xs, Ys = getFeatures(cur_img, newbbox)
 
