@@ -32,62 +32,78 @@ from estimateAllTranslation import estimateAllTranslation
 
 def applyGeometricTransformation(startXs, startYs, newXs, newYs, bbox):
   #TODO: Your code here
-  newbbox = []
   Xs = []
   Ys = []
-  for i in range(0, len(bbox)):
-    box = bbox[i]
-    prev_xs = startXs[i]
-    prev_ys = startYs[i]
-    cur_xs = newXs[i]
-    cur_ys = newYs[i]
-    
+  
+  newbbox = []
+  for i in xrange(len(bbox)):
+    box = np.array(bbox[i])
+    startXs[i] = np.array(startXs[i])
+    startYs[i] = np.array(startYs[i])
+    newXs[i] = np.array(newXs[i])
+    newYs[i] = np.array(newYs[i])
+    dist = ((startXs[i] - newXs[i]) ** 2 + (startYs[i] - newYs[i]) ** 2) ** (0.5)
+
+    # multiple feature boxes
+    idx = np.array(np.where(dist < 5))[0]
+    tmpXs = []
+    tmpYs = []
+    tmpStartXs = []
+    tmpStartYs = []
+    tmpNewXs = []
+    tmpNewYs =[]
+    for ind in idx:
+      tmpXs.append(newXs[i][ind])
+      tmpYs.append(newYs[i][ind])
+      tmpStartXs.append(startXs[i][ind])
+      tmpStartYs.append(startYs[i][ind])
+      tmpNewXs.append(newXs[i][ind])
+      tmpNewYs.append(newYs[i][ind])
+    Xs.append(tmpXs)
+    Ys.append(tmpYs)
+
     trans_f = transform.SimilarityTransform()
-    src = np.asarray([prev_xs, prev_ys]).T
-    dst = np.asarray([cur_xs, cur_ys]).T
+    src = np.asarray([tmpStartXs, tmpStartYs]).T
+    dst = np.asarray([tmpNewXs, tmpNewYs]).T
 
     if not trans_f.estimate(src, dst):
       raise ValueError('transformation function failed')
     else:
       H = trans_f.params
-    
+
     a0 = H[0][0]
     b0 = H[0][1]
     a1 = H[0][2]
     b1 = H[1][2]
 
-    newbox = np.zeros(box.shape)
-    newbox[:,0] = a0*box[:,0] + b0*box[:,1] + a1
-    newbox[:,1] = b0*box[:,0] + a0*box[:,1] + b1
+    newbox = np.zeros((box.shape[0], box.shape[1]))
+    newbox[:, 0] = a0 * box[:, 0] + b0 * box[:, 1] + a1
+    newbox[:, 1] = b0 * box[:, 0] + a0 * box[:, 1] + b1
 
-    box_x1 = int(min(newbox[0:2,0]))
-    box_x2 = int(max(newbox[2:4,0]))
-    box_y1 = int(min(newbox[0,1], newbox[2,1]))
-    box_y2 = int(max(newbox[1,1], newbox[3,1]))
-    
-    newbox = np.asarray([[box_x1, box_y1],[box_x1, box_y2],[box_x2, box_y1],[box_x2, box_y2]])
+    box_x1 = int(round(min(newbox[0:2, 0])))
+    box_x2 = int(round(max(newbox[2:4, 0])))
+    box_y1 = int(round(min(newbox[0, 1], newbox[2, 1])))
+    box_y2 = int(round(max(newbox[1, 1], newbox[3, 1])))
+
+    newbox = np.asarray([[box_x1, box_y1], [box_x1, box_y2], [box_x2, box_y1], [box_x2, box_y2]])
     newbbox.append(newbox)
 
-    diff = (prev_xs - cur_xs)**2 + (prev_ys - cur_ys)**2
-    idx = np.where(diff <= 16)
-    xys = np.asarray([cur_xs[idx], cur_ys[idx]]).T
+  #     plt.figure(1)
+  #     plt.subplot(121)
+  #     plt.imshow(img0)
+  #     plt.plot(box.T[1], box.T[0], 'ro')
+  #     plt.axis('off')
+  #     plt.subplot(122)
+  #     plt.imshow(img1)
+  #     plt.plot(newbox.T[1], newbox.T[0], 'ro')
+  #     plt.axis('off')
+  # plt.show()
 
-    # eliminate out-of-box features
-    xys[xys[:,0] < box_x1] = -1
-    xys[xys[:,0] > box_x2] = -1
-    xys[xys[:,1] < box_y1] = -1
-    xys[xys[:,1] > box_y2] = -1        
-    xys = xys[np.all(xys != -1, axis = 1),:]
-
-    Xs.append(np.asarray(xys[:,0]))
-    Ys.append(np.asarray(xys[:,1]))
-
-  Xs = np.asarray(Xs)
-  Ys = np.asarray(Ys)
   return Xs, Ys, newbbox
 
+
 if __name__ == '__main__':
-  cap = cv2.VideoCapture("./Datasets/Easy/MarquesBrownlee.mp4")
+  cap = cv2.VideoCapture("./Datasets/Difficult/StrangerThings.mp4")
   ret,img1 = cap.read()
   ret,img2 = cap.read()
   cap.release()
@@ -103,7 +119,8 @@ if __name__ == '__main__':
     cv2.rectangle(tmpimg1, (int(box[0][1]), int(box[0][0])), (int(box[-1][1]), int(box[-1][0])), (0, 255, 0), 3)
   plt.figure()
   plt.imshow(tmpimg1)
-  plt.plot(startYs, startXs, 'w+')
+  for j in range(len(startYs)): 
+    plt.plot(startYs[j], startXs[j], 'w+')
   plt.axis('off')
   plt.show()
 
@@ -111,6 +128,7 @@ if __name__ == '__main__':
     cv2.rectangle(tmpimg2, (int(newbox[0][1]), int(newbox[0][0])), (int(newbox[-1][1]), int(newbox[-1][0])), (0, 255, 0), 3)
   plt.figure()
   plt.imshow(tmpimg2)
-  plt.plot(Ys, Xs, 'w+')
+  for i in range(len(Xs)):  
+    plt.plot(Ys[i], Xs[i], 'w+')
   plt.axis('off')
   plt.show()

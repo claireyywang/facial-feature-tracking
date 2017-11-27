@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 from skimage.feature import corner_shi_tomasi, corner_peaks
 
 from detectFace import detectFace
-
+from helper import *
 def getFeatures(img, bbox):
   #TODO: Your code here
   img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -40,20 +40,22 @@ def getFeatures(img, bbox):
     # plt.show()
     x.append(box[0,0]+xys[0:len(xys),0]+tempx)
     y.append(box[0,1]+xys[0:len(xys),1]+tempy)
-  #print x
-  #print y
+  x = np.array(x)
+  y = np.array(y)
+  # print x
+  # print y
+  # imgwbox = drawBox(img, bbox)
   # plt.figure()
-  # plt.imshow(img_gray, cmap='gray')
-  # plt.plot(y, x, 'w+')
+  # plt.imshow(imgwbox)
+  # for i in range(len(x)):  
+  #   plt.plot(y[i], x[i], 'w+')
   # plt.axis('off')
   # plt.show()
-  x = np.asarray(x).astype(int)
-  y = np.asarray(y).astype(int)
   return x, y
 
 if __name__ == '__main__':
   # setup video capture
-  cap = cv2.VideoCapture("./Datasets/Easy/MarquesBrownlee.mp4")  
+  cap = cv2.VideoCapture("./Datasets/Difficult/StrangerThings.mp4")  
   ret,img = cap.read()
   #small = cv2.resize(img, (0,0), fx=0.3, fy=0.3)
   cap.release()

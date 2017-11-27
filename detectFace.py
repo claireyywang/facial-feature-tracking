@@ -29,13 +29,13 @@ def detectFace(img):
   faces = faceCascade.detectMultiScale(
   	gray,
   	#scale factor decides the accuracy of detection
-  	scaleFactor=1.1,
+  	scaleFactor=1.02,
   	minNeighbors=5,
   	)
   bbox = []
   # Draw a rectangle around the face
   for (x, y, w, h) in faces:
-  	# cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+  	#cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
   	#print ([(y,x),(y,x+w),(y+h,x),(y+h,x+w)])
   	bbox.append([(y,x),(y,x+w),(y+h,x),(y+h,x+w)])
   bbox = np.array(bbox)
@@ -47,7 +47,7 @@ def detectFace(img):
 
 if __name__ == '__main__':
   # setup video capture
-  cap = cv2.VideoCapture('./Datasets/Easy/TheMartian.mp4')
+  cap = cv2.VideoCapture('./Datasets/Difficult/StrangerThings.mp4')
   ret,img = cap.read()
   cap.release()
   if ret:

@@ -8,7 +8,7 @@
   File clarification:
     Generate a video with tracking features and bounding box for face regions
     - Input rawVideo: the video contains one or more faces
-    - Output output: the generated video with tracked features and bounding box for face regions
+    - Output tracked_video: the generated video with tracked features and bounding box for face regions
 '''
 import numpy as np
 import cv2
@@ -33,7 +33,9 @@ def faceTracking(rawVideo):
   # initialize video writer 
   h, w, l = cur_img.shape
   fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-  tracked_video = './Output_Video/tracked_video.m4v'
+
+  # change tracked_video name for each run 
+  tracked_video = './Output_Video/tracked_video2.m4v'
   output = cv2.VideoWriter(tracked_video, fourcc, 20, (w, h), True)
 
   # draw box on first frame
@@ -56,7 +58,6 @@ def faceTracking(rawVideo):
       box_features = np.append(box_features, len(Xs[i]))
 
     print sum(box_features)
-    # import pdb; pdb.set_trace()
     if sum(box_features) < 10:
       newbbox = detectFace(cur_img)
       Xs, Ys = getFeatures(cur_img, newbbox)
@@ -80,5 +81,5 @@ def faceTracking(rawVideo):
 
   return tracked_video
 if __name__ == '__main__':
-    rawvideo = "./Datasets/Easy/MarquesBrownlee.mp4"
+    rawvideo = "./Datasets/Difficult/StrangerThings.mp4"
     faceTracking(rawvideo)

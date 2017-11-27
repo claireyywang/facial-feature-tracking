@@ -23,14 +23,19 @@ import scipy
 import matplotlib
 import matplotlib.pyplot as plt
 from numpy.linalg import inv
-from skimage.feature import corner_shi_tomasi, corner_peaks
 
 from detectFace import detectFace
 from getFeatures import getFeatures
+from helper import *
 
 def estimateFeatureTranslation(startX, startY, Ix, Iy, img1, img2):
   #TODO: Your code here
   It = img2-img1
+
+  # apply gaussian kernel 
+  gaussian = gaussianPDF(0,1,3,3)
+  Ixx = signal.convolve2d(Ix, gaussian, 'same')
+  Iyy = signal.convolve2d(Iy, gaussian, 'same')
 
   Ix_window = Ix[startX-5:startX+5, startY-5:startY+5]
   Iy_window = Iy[startX-5:startX+5, startY-5:startY+5]   
@@ -40,8 +45,10 @@ def estimateFeatureTranslation(startX, startY, Ix, Iy, img1, img2):
   A_square = np.asarray([[IxIx,IxIy],[IxIy,IyIy]])
 
   It_window = It[startX-5:startX+5, startY-5:startY+5]
-  IxIt = -np.sum(np.dot(Ix_window, It_window))
-  IyIt = -np.sum(np.dot(Iy_window, It_window))
+  Ixx_window = Ixx[startX-5:startX+5, startY-5:startY+5]
+  Iyy_window = Iyy[startX-5:startX+5, startY-5:startY+5]
+  IxIt = -np.sum(np.dot(Ixx_window, It_window))
+  IyIt = -np.sum(np.dot(Iyy_window, It_window))
   Ab = np.asarray([IxIt, IyIt])
   uv = np.dot(inv(A_square), Ab)
   dx = uv[0]
