@@ -29,7 +29,7 @@ def detectFace(img):
   faces = faceCascade.detectMultiScale(
   	gray,
   	#scale factor decides the accuracy of detection
-  	scaleFactor=1.02,
+  	scaleFactor=1.1,
   	minNeighbors=5,
   	)
   bbox = []

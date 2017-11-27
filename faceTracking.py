@@ -32,10 +32,10 @@ def faceTracking(rawVideo):
 
   # initialize video writer 
   h, w, l = cur_img.shape
-  fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+  fourcc = cv2.VideoWriter_fourcc('m','p','4','v')
 
   # change tracked_video name for each run 
-  tracked_video = './Output_Video/tracked_video2.m4v'
+  tracked_video = './Output_Video/tracked_video.avi'
   output = cv2.VideoWriter(tracked_video, fourcc, 20, (w, h), True)
 
   # draw box on first frame

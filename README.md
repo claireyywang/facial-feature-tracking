@@ -3,14 +3,15 @@
 
 ### File Structure:
 #### Folders
-`Datasets`: all input videos
-`Haarcascade_Classifier`: two classifiers. We used `haarcascade_frontalface_alt.xml` classifier because it has better performance
-`Output_Video`: all output tracked videos: `martian.m4v`, `lee.m4v` and `tyrion.m4v`
-`First_Frame_with_Features`: contains all first frame images with feature points and boxes overlaid
-`Resources` is micellaneous, can be ignored 
+* `Datasets`: all input videos
+* `Haarcascade_Classifier`: two classifiers. We used `haarcascade_frontalface_alt.xml` classifier because it has better performance
+* `Output_Video`: contains all types of output videos, including `.avi`, `.m4v`, `.mov`. Grade whichever opens on your laptop. 
+* `First_Frame_with_Features`: contains all first frame images with feature points and boxes overlaid
+* `Resources` is micellaneous, can be ignored 
 
 #### Function Files
-`helper.py`: contains `drawBox` function which copies image with feature box overlaid on it, and gaussian convolution function `gaussianPDF` which returns an operator for Ix and Iy
+* `detectFace.py`: default `scaleFactor=1.1`. Adjust `scaleFactor=1.02` when running on `strangerthings.mp4`
+* `helper.py`: contains `drawBox` function which copies image with feature box overlaid on it, and gaussian convolution function `gaussianPDF` which returns an operator for Ix and Iy
 
 ### To run test videos
 `faceTracking.py`: main function produces the tracked videos. 
