@@ -1,5 +1,4 @@
 # Optical Flow Feature Detection
-## Group 5: YueMeng Li, Yuanyuan Wang, Yu-Ho Hsieh
 
 ### File Structure:
 #### Folders
